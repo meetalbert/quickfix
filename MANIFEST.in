@@ -1,0 +1,8 @@
+include LICENSE
+include setup.py
+include test_*.cpp
+include spec/*.xml
+include src/C++/*.cpp
+include src/C++/*.h
+include src/python3/*.py
+include src/python3/QuickfixPython.*

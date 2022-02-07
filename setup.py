@@ -46,35 +46,38 @@ cfg_vars = distutils.sysconfig.get_config_vars()
 for key, value in cfg_vars.items():
     if type(value) == str:
         cfg_vars[key] = value.replace("-Wstrict-prototypes", "")
-        
-long_description=''
-with open('LICENSE') as file:
-    license = file.read();
 
-setup(name='quickfix',
-      version='1.15.1',
+ext = Extension(
+    '_quickfix',
+    glob.glob('C++/*.cpp'),
+    include_dirs=["C++"],
+    define_macros=[("HAVE_SSL", "1")],
+    extra_compile_args=[
+        '-std=c++0x', '-Wno-deprecated', '-Wno-unused-variable',
+        '-Wno-deprecated-declarations', '-Wno-maybe-uninitialized'
+    ],
+    extra_link_args=[
+        "-lssl"
+    ],
+)
+        
+setup(name='quickfix-albert',
+      version='1.15.3',
       py_modules=[
-        'src/python/quickfix',
-        'src/python/quickfixt11', 
-        'src/python/quickfix40', 
-        'src/python/quickfix41', 
-        'src/python/quickfix42', 
-        'src/python/quickfix43', 
-        'src/python/quickfix44', 
-        'src/python/quickfix50', 
-        'src/python/quickfix50sp1', 
-        'src/python/quickfix50sp2'
+          'quickfix', 'quickfixt11', 'quickfix40', 'quickfix41', 'quickfix42',
+          'quickfix43', 'quickfix44', 'quickfix50', 'quickfix50sp1', 'quickfix50sp2'
       ],
       data_files=[('share/quickfix', glob.glob('spec/FIX*.xml'))],
       author='Oren Miller',
       author_email='oren@quickfixengine.org',
-      maintainer='Oren Miller',
-      maintainer_email='oren@quickfixengine.org',
-      description="FIX (Financial Information eXchange) protocol implementation",
+      maintainer='Giovanni Opromolla',
+      maintainer_email='giopromolla@gmail.com',
+      description="FIX (Financial Information eXchange) protocol implementation (SSL enabled)",
       url='http://www.quickfixengine.org',
       download_url='http://www.quickfixengine.org',
-      license=license,
-      include_dirs=['src/C++',],
+      include_package_data=True,
+      license='MIT',
+      include_dirs=['C++',],
       cmdclass = {'build_ext': build_ext_subclass },
-      ext_modules=[Extension('_quickfix', glob.glob('src/C++/*.cpp'), extra_compile_args=['-std=c++0x', '-Wno-deprecated', '-Wno-unused-variable', '-Wno-deprecated-declarations', '-Wno-maybe-uninitialized'])],
+      ext_modules=[ext],
 )
