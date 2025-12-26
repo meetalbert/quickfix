@@ -2,7 +2,6 @@ MANIFEST.in
 setup.py
 test_std_shared_ptr.cpp
 test_std_tr1_shared_ptr.cpp
-C++/config.h
 quickfix_albert.egg-info/PKG-INFO
 quickfix_albert.egg-info/SOURCES.txt
 quickfix_albert.egg-info/dependency_links.txt
